@@ -20,6 +20,6 @@ Django_login.py:
     如果上一步身份验证通过，则此方法中对 request.session 中简单的添加两个键值：
     (1) "_auth_user_id"  这个是 user.id
     (2) "_auth_user_backend" 这个是 user.backend
-
 因此只要给DJango一个user对象和user.id,user.backend就可以实现任意用户不用密码改变登录态
 =================================================
+
