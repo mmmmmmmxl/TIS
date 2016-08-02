@@ -21,5 +21,5 @@ Django_login.py:
     (1) "_auth_user_id"  这个是 user.id
     (2) "_auth_user_backend" 这个是 user.backend
 
-去看了下login()的源码，Persist a user id and a backend in the request.因此只要给一个有id和backend属性的User对象，就可以变更当前登录用户了。
+因此只要给DJango一个user对象和user.id,user.backend就可以实现任意用户不用密码改变登录态
 =================================================
