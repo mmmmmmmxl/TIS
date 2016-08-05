@@ -75,8 +75,8 @@ from django.dispatch import Signal
 #定义一个person信号，它产生了"weight"和"height"两个参数的接收器
 person = Signal(providing_args = ['weight','height'])
 
-#发送信号有两种方法,Signal.send和Siganal.send_robust，通常我们使用Signal.send，
-他们俩的区别在于send|不会捕捉异常，而send_robust会捕捉异常
+#发送信号有两种方法,Signal.send和Siganal.send_robust，通常我们使用Signal.send
+#他们俩的区别在于send不会捕捉异常，而send_robust会捕捉异常
 class Person_manage(object):
 	...
 	def send_person(self,weight,height):
