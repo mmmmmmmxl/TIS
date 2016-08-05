@@ -73,14 +73,15 @@ https://www.zhihu.com/question/20060155
 from django.dispatch import Signal 
 
 #定义一个person信号，它产生了"weight"和"height"两个参数的接收器
-person = Signal(providing_args=['weight','height'])
+person = Signal(providing_args = ['weight','height'])
 
-#发送信号有两种方法,Signal.send和Siganal.send_robust，通常我们使用Signal.send，他们俩的区别在于send|不会捕捉异常，而send_robust会捕捉异常
+#发送信号有两种方法,Signal.send和Siganal.send_robust，通常我们使用Signal.send，
+他们俩的区别在于send|不会捕捉异常，而send_robust会捕捉异常
 class Person_manage(object):
 	...
 	def send_person(self,weight,height):
 		#send返回的是一个tuple列表,在绝大多数的时候，sender后面是一个类。		
-		person.send(sender=self.__class__,height=height,weight=weight)
+		person.send(sender=self.__class__, height=height, weight=weight)
 		
 #定义一个方法接收Signal
 def my_callback(sender, **kwargs):
