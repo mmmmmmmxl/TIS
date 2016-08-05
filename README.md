@@ -1,5 +1,5 @@
-﻿# study #
-#记录学习工作中遇到的问题#
+﻿# Thinking in the study #
+#这其实就是个坑#
 ===============================================
 
 - `permutation.py`：排列组合分组实现
@@ -108,7 +108,7 @@ def my_handler(sender, **kwargs):
 
 
 =======================================
-#python冒泡排序的实现（有sort在似乎根本没什么必要？）#
+#Python冒泡排序的实现（有sort在似乎根本没什么必要？）#
 ````python
 array = [1,3,5,4,2]
 for i in range(len(array))[::-1]:
