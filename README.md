@@ -68,4 +68,47 @@ https://www.zhihu.com/question/20060155
 =======================================================
 2016.8.5
 #Django的拾遗之Signal#
-首先from django.dispatch import Signal
+使用Signal之前得明白django signal和异步消息列队(例如celery)的区别. signal是同步处理, 因此通过signal调用大处理量的进程时并不能提高性能. 事实上, 将这些需要大处理量的进程移到signal中被视作是一种不好的习惯.
+
+|from django.dispatch import Signal 
+|
+|#定义一个person信号，它产生了"weight"和"height"两个参数的接收器
+|person = Signal(providing_args=['weight','height'])
+|
+|#发送信号有两种方法,Signal.send和Siganal.send_robust，通常我们使用Signal.send，他们俩的区别在于send|不会捕捉异常，而send_robust会捕捉异常
+|class Person_manage(object):
+|	...
+|	def send_person(self,weight,height):
+|		#send返回的是一个tuple列表,在绝大多数的时候，sender后面是一个类。		
+|		person.send(sender=self.__class__,height=height,weight=weight)
+|		
+|#定义一个方法接收Signal
+|def my_callback(sender, **kwargs):
+|   print("Signal received!")
+|
+|#连接到Signal的两种方法
+|1.from django.core.signals import request_finished
+|  request_finished.connect(my_callback)
+|
+|
+|2.from django.core.signals import request_finished
+|  from django.dispatch import receiver
+|
+|  @receiver(request_finished)
+|  def my_callback(sender, **kwargs):
+|      print("Request finished!")
+|
+|#只接收指定信号的方法
+|from django.db.models.signals import pre_save
+|from django.dispatch import receiver
+|from myapp.models import MyModel
+|
+|
+|@receiver(pre_save, sender=MyModel)
+|def my_handler(sender, **kwargs):
+|    ...
+|
+
+
+
+
