@@ -10,12 +10,12 @@ create database 数据库名
 show databases;
 
 #查看某个数据库中所有的表
-show table status from your_table_name
+show table status from your_table_name;
 
 #查看某个表的所有字段
 select COLUMN_NAME from information_schema.COLUMNS where table_name = 'your_table_name';
 
 #查看某个表的所有值
-select * from your_table_name
+select * from your_table_name;
 
 ```
