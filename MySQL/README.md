@@ -47,8 +47,16 @@ select * from your_table_name;
 #查看某表的建表语句
 SHOW CREATE TABLE 表名
 
+#查询中可以带 IN，BETWEEN AND，LIKE等，相应的也可以带上NOT
+SELECT * FROM TABLE WHERE COLUM BETWEEN 5 AND 20;
+SELECT * FROM TABLE WHERE COLUM NOT BETWEEN 5 AND 20;
+SELECT * FROM TABLE WHERE COLUM IN (1001,1004);
+SELECT * FROM TABLE WHERE COLUM LIKE 'a';
 
+#数据库中查询空值
+SELECT * FROM TABLE WHERE COLUM IS NULL;
 
+#
 ```
 #MySQL中删除外键需要注意的事项#
 由于在MySQL中在创建表时，若表中包含外键，外键约束就已经设定好了。
