@@ -116,3 +116,92 @@ for i in range(len(array))[::-1]:
 	if array[j] > array[j+1]:
 	    array[j],array[j+1] = array[j+1],array[j]
 ```
+
+
+==========================================
+#Django中扩展manage.py命令
+
+我们都用过Django的django-admin.py和manage.py。django-admin.py是一个命令行工具，可以执行一些管理任务，比如创建Django项目。而manage.py是在创建每个Django project时自动添加在项目目录下的，只是对manage.py的一个简单包装，其功能是将Django project放到sys.path目录中，同时设置DJANGO_SETTINGS_MODULE环境变量为当前project的setting.py文件。
+
+django-admin.py调用django.core.management来执行命令:
+```python
+#!/usr/bin/env python
+from django.core import management
+  
+if __name__ == "__main__":
+  management.execute_from_command_line()
+```
+
+excute_from_command_line()函数会根据命令行参数解析出命令的名称，根据命令名称调用相应的Command执行命令。Command位于各个管理模块的commands模块下面。
+所谓管理模块，是指在app模块下的名字为management的模块。Django通过django.core.management.find_management_module函数发现"管理模块":
+
+```python
+django.core.management.find_management_module()
+def find_management_module(app_name):
+  """
+  Determines the path to the management module for the given app_name,
+  without actually importing the application or the management module.
+
+  Raises ImportError if the management module cannot be found for any reason.
+  """
+  parts = app_name.split('.')
+  parts.append('management')
+  parts.reverse()
+  part = parts.pop()
+  path = None
+```
+
+然后通过django.core.management.find_commands函数找到命令类。find_commands函数会在管理模块下查找.py文件，并将.py文件的名称匹配到命令名称:
+
+```python
+def find_commands(management_dir):
+  """
+  Given a path to a management directory, returns a list of all the command
+  names that are available.
+
+  Returns an empty list if no commands are defined.
+  """
+  command_dir = os.path.join(management_dir, 'commands')
+  try:
+    return [f[:-3] for f in os.listdir(command_dir)
+      if not f.startswith('_') and f.endswith('.py')]
+  except OSError:
+  return []
+```
+
+最后，通过django.core.management.load_command_class函数加载该.py文件中的Command类:
+
+```python
+def load_command_class(app_name, name):
+  """
+  Given a command name and an application name, returns the Command
+  class instance. All errors raised by the import process
+  (ImportError, AttributeError) are allowed to propagate.
+  """
+  module = import_module('%s.management.commands.%s' % (app_name, name))
+  return module.Command()
+```
+
+在执行命令的时候，会执行相应Command类的handle方法。所有的Command类都应该是django.core.management.base.BaseCommand的直接或间接子类。
+
+
+原理搞清楚了，扩展manage命令就很容易了。创建一个app并加入到settings的INSTALLED_APPS中，在该app下面创建management.commands模块，并创建hello.py文件:
+
+```python
+from django.core.management.base import BaseCommand, CommandError
+from django.db import models
+#from placeholders import *
+import os
+  
+class Command(BaseCommand):
+   def handle(self, *args, **options):
+     print 'hello, django!'
+```
+
+就可以使用hello命令了:
+```
+$ python manage.py hello
+hello, django!
+```
+
+复制粘贴结束了，那么其实扩展manage.py就只需要在management----commands目录下新建文件夹并引入basecommands即可。
