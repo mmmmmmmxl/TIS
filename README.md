@@ -210,8 +210,12 @@ hello, django!
 ===================================
 #Django ORM#
 Django的ORM十分强大，看完这几篇应该全懂了：
+
 http://blog.sina.com.cn/s/blog_a73687bc0101cygy.html  Django数据模型进阶
+
 http://blog.sina.com.cn/s/blog_611f501001015vm8.html  Django的数据库操作
+
 https://www.douban.com/note/301166150/   条件过滤，及多表连接查询、反向查询，某字段的distinct
+
 http://my.oschina.net/vincent67/blog/168082  在django中按照时间范围查询数据库
 
