@@ -119,7 +119,7 @@ for i in range(len(array))[::-1]:
 
 
 ==========================================
-#Django中扩展manage.py命令
+#Django中扩展manage.py命令#
 
 我们都用过Django的django-admin.py和manage.py。django-admin.py是一个命令行工具，可以执行一些管理任务，比如创建Django项目。而manage.py是在创建每个Django project时自动添加在项目目录下的，只是对manage.py的一个简单包装，其功能是将Django project放到sys.path目录中，同时设置DJANGO_SETTINGS_MODULE环境变量为当前project的setting.py文件。
 
@@ -205,3 +205,13 @@ hello, django!
 ```
 
 复制粘贴结束了，那么其实扩展manage.py就只需要在management----commands目录下新建文件夹并引入basecommands即可。
+
+
+===================================
+#Django ORM#
+Django的ORM十分强大，看完这几篇应该全懂了：
+http://blog.sina.com.cn/s/blog_a73687bc0101cygy.html  Django数据模型进阶
+http://blog.sina.com.cn/s/blog_611f501001015vm8.html  Django的数据库操作
+https://www.douban.com/note/301166150/   条件过滤，及多表连接查询、反向查询，某字段的distinct
+http://my.oschina.net/vincent67/blog/168082  在django中按照时间范围查询数据库
+

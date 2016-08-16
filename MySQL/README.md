@@ -103,7 +103,10 @@ UPDATE TABLE_NAME SET COLUM = '' WHERE ...
 #删除记录
 DELETE FROM TABLE_NAME WHERE id = 1;
 
-#
+#函数是个大坑 我太懒了 先放一放  orz
+
+#值得收藏的SQL时间函数
+http://blog.csdn.net/zqpgood/article/details/5867513
 
 ```
 #MySQL中删除外键需要注意的事项#
