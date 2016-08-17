@@ -7,7 +7,6 @@ import threading
 import logging
 import time
 
-
 __author__ = 'NaVient'
 
 # global engine object:
@@ -93,10 +92,83 @@ class _Lazyconnection(object):
             _connection.close()
 
 
-class _Dbctx(threading.local):
-    pass
+class _DbCtx(threading.local):
+    """
+    db模块的核心对象, 数据库连接的上下文对象，负责从数据库获取和释放连接
+    取得的连接是惰性连接对象，因此只有调用cursor对象时，才会真正获取数据库连接
+    该对象是一个 Thread local对象，因此绑定在此对象上的数据 仅对本线程可见
+    """
+
+    def __init__(self):
+        self.connction = None
+        self.transaction = 0
+
+    def is_init(self):
+        """
+        返回一个布尔值，用于判断 此对象的初始化状态
+        """
+        return self.connction is not None
+
+    def init(self):
+        """
+        初始化连接的上下文对象，获得一个惰性连接对象
+        """
+        self.connection = _Lazyconnection()
+        self.transaction = 0
+
+    def cleanup(self):
+        """
+        清理连接对象，关闭连接
+        """
+        self.connection.cleanup()
+        self.connection = None
+
+    def cursor(self):
+        """
+        获取数据库对象游标，真正连接数据库
+        """
+        self.connetion.cursor()
+
+#线程本地db对象
+_db_ctx = _DbCtx()
+
 class _ConnectionCtx():
-    pass
+    """
+    因为_DbCtx实现了连接的 获取和释放，但是并没有实现连接
+    的自动获取和释放，_ConnectCtx在 _DbCtx基础上实现了该功能，
+    因此可以对 _ConnectCtx 使用with 语法，比如：
+    with connection():
+        pass
+        with connection():
+            pass
+    """
+    def __enter__(self):
+        """
+        获取一个惰性连接对象
+        """
+        global _db_ctx
+        self.should_cleanup = False
+        if not _db_ctx.is_init:
+            _db_ctx.init()
+            self.should_cleanup = True
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """
+        释放惰性连接
+        """
+        global _db_ctx
+        if self.should_cleanup:
+            _db_ctx.cleanup()
+
+class _TransactionCtx(object):
+    """
+    事务嵌套比Connection嵌套复杂一点，因为事务嵌套需要计数，
+    每遇到一层嵌套就+1，离开一层嵌套就-1，最后到0时提交事务
+    """
+
+
+
 class _Engine(object):
     """
     数据库引擎对象
