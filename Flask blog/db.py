@@ -62,6 +62,17 @@ def connection():
 
     return _ConnectionCtx()
 
+def with_connection(func):
+    """
+    设计一个装饰器 替换with语法，让代码更优雅
+    比如:
+        @with_connection
+        def foo(*args, **kw):
+            f1()
+            f2()
+            f3()
+    """
+
 
 class _Lazyconnection(object):
     """
@@ -181,6 +192,34 @@ class _TransactionCtx(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         global _db_ctx
         _db_ctx.transaction -= 1
+        try:
+            if _db_ctx.transaction == 0:
+                if exc_type == None:
+                    self.commit()
+                else:
+                    self.rollback()
+
+        finally:
+            if _db_ctx.should_close_conn:
+                _db_ctx.cleanup()
+
+    def commit(self):
+        global  _db_ctx
+        logging.info('Commit transaction.')
+        try:
+            _db_ctx.connction.commit()
+            logging.info('Commit Ok')
+        except:
+            logging.warning('Commit Failed,try Rollback.')
+            _db_ctx.connction.rollback()
+            logging.info('Roll Back Ok.')
+            raise
+
+    def rollback(self):
+        global _db_ctx
+        logging.warning('rollback transaction')
+        _db_ctx.connction.rollback()
+        logging.info('Roll Back Ok.')
 
 
 
@@ -199,6 +238,9 @@ class _Engine(object):
 
 
 class DBError(Exception):
+    pass
+
+class MultiColumnsError(DBError):
     pass
 
 
