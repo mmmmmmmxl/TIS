@@ -148,7 +148,7 @@ class _ConnectionCtx():
         """
         global _db_ctx
         self.should_cleanup = False
-        if not _db_ctx.is_init:
+        if not _db_ctx.is_init():
             _db_ctx.init()
             self.should_cleanup = True
         return self
@@ -163,9 +163,25 @@ class _ConnectionCtx():
 
 class _TransactionCtx(object):
     """
-    事务嵌套比Connection嵌套复杂一点，因为事务嵌套需要计数，
-    每遇到一层嵌套就+1，离开一层嵌套就-1，最后到0时提交事务
+    事务也可以嵌套，内层事务会自动合并到外层事务中，
+    这种事务模型足够满足99%的需求。事务嵌套比Connection
+    嵌套复杂一点，因为事务嵌套需要计数，每遇到一层嵌套就+1，
+    离开一层嵌套就-1，最后到0时提交事务
     """
+    def __enter__(self):
+        self.should_close_conn = False
+        if not _db_ctx.is_init():
+            #首先需要打开一个连接
+            _db_ctx.init()
+            self.should_close_conn = True
+        _db_ctx.transaction += 1
+        logging.info('Begin Transaction' if _db_ctx.transaction == 1 else 'Join Current Transaction')
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global _db_ctx
+        _db_ctx.transaction -= 1
+
 
 
 

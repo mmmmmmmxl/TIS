@@ -204,7 +204,7 @@ $ python manage.py hello
 hello, django!
 ```
 
-复制粘贴结束了，那么其实扩展manage.py就只需要在management----commands目录下新建文件夹并引入basecommands即可。
+那么其实扩展manage.py就只需要在management----commands目录下新建文件夹并引入basecommands即可。
 
 
 ===================================
