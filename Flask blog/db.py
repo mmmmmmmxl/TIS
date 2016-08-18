@@ -109,6 +109,14 @@ def with_transaction(func):
         _calculate(start)
     return _wrapper
 
+@with_connection
+def _select(sql, first, *args):
+    """
+    执行SQL，返回一个结果 或者多个结果组成的列表
+    """
+    global _db_ctx
+    
+
 
 
 class _Lazyconnection(object):
