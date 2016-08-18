@@ -6,6 +6,7 @@ db.py  编写独立的数据库模块
 import threading
 import logging
 import time
+import functools
 
 __author__ = 'NaVient'
 
@@ -64,7 +65,7 @@ def connection():
 
 def with_connection(func):
     """
-    设计一个装饰器 替换with语法，让代码更优雅
+    设计一个装饰器 替换with语法
     比如:
         @with_connection
         def foo(*args, **kw):
@@ -72,6 +73,42 @@ def with_connection(func):
             f2()
             f3()
     """
+    @functools.wraps(func)
+    def _wrapper(*args,**kwargs):
+        with _ConnectionCtx():
+            return func(*args, **kwargs)
+
+    return _wrapper
+
+
+def transaction():
+    """
+    db模块核心函数 用于实现事物功能
+    支持事物:
+        with db.transaction():
+            db.select('...')
+            db.update('...')
+            db.update('...')
+    支持事物嵌套:
+        with db.transaction():
+            transaction1
+            transaction2
+            ...
+    """
+    return _TransactionCtx()
+
+def with_transaction(func):
+    """
+    设计一个装饰器 替换with语法
+    """
+    @functools.wraps(func)
+    def _wrapper(*args, **kw):
+        start = time.time()
+        with _TransactionCtx():
+            func(*args, **kw)
+        _calculate(start)
+    return _wrapper
+
 
 
 class _Lazyconnection(object):
