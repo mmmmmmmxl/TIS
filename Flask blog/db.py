@@ -115,7 +115,14 @@ def _select(sql, first, *args):
     执行SQL，返回一个结果 或者多个结果组成的列表
     """
     global _db_ctx
-    
+    cursor = None
+    sql = sql.replace('?', '%s')
+    logging.info('sql : %s, arg : %s') % (sql,args)
+    try:
+        _db_ctx.connction.cursor()
+        cursor.excute(sql,args)
+        
+
 
 
 
