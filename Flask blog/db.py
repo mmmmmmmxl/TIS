@@ -121,7 +121,13 @@ def _select(sql, first, *args):
     try:
         _db_ctx.connction.cursor()
         cursor.excute(sql,args)
-        
+        if cursor.description:
+            names = [x[0] for x in cursor.description]
+        if first:
+            values = cursor.fetchone()
+            if not values:
+                return None
+            return Dict(names,values)
 
 
 
