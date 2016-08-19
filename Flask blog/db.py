@@ -11,7 +11,7 @@ import functools
 __author__ = 'NaVient'
 
 # global engine object:
-engine = None
+
 
 def _calculate(start,sql=''):
     """
@@ -117,20 +117,61 @@ def _select(sql, first, *args):
     global _db_ctx
     cursor = None
     sql = sql.replace('?', '%s')
-    logging.info('sql : %s, arg : %s') % (sql,args)
     try:
-        _db_ctx.connction.cursor()
+        _db_ctx.connection.cursor()
         cursor.excute(sql,args)
         if cursor.description:
             names = [x[0] for x in cursor.description]
+        else:
+            names = []
         if first:
             values = cursor.fetchone()
             if not values:
                 return None
             return Dict(names,values)
+        return [Dict(names, x) for x in cursor.fetchall()]
+    finally:
+        if cursor:
+            cursor.close()
+
+def select_one(sql,*args):
+    """
+    执行SQL 仅返回一个结果
+    如果没有结果 返回None
+    如果有1个结果，返回一个结果
+    如果有多个结果，返回第一个结果
+    用法：
+    u = select_one('select * from user where email=?', 'abc@email.com')
+    u.name
+    """
+    return _select(sql, True, *args)
 
 
+def select(sql,*args):
+    """
+     执行SQL，以列表形式返回结果
+    """
+    return _select(sql, False, *args)
 
+
+class Dict(dict):
+    """
+    字典对象
+    实现一个简单的可以通过属性访问的字典，比如 x.key = value
+    """
+    def __init__(self, names=(), values=(), **kw):
+        super(Dict, self).__init__(**kw)
+        for k, v in zip(names, values):
+            self[k] = v
+
+    def __getattr__(self, key):
+        try:
+            return self[key]
+        except KeyError:
+            raise AttributeError(r"'Dict' object has no attribute '%s'" % key)
+
+    def __setattr__(self, key, value):
+        self[key] = value
 
 class _Lazyconnection(object):
     """
@@ -142,9 +183,9 @@ class _Lazyconnection(object):
 
     def cursor(self):
         if self.connection is None:
-            _connetion = engine.connect()
+            _connection = engine.connect()
             logging.info('Connection is open')
-            self.connection = _connetion
+            self.connection = _connection
         return self.connection.cursor()
 
     def commit(self):
@@ -294,7 +335,7 @@ class _Engine(object):
     def connect(self):
         return self._connect
 
-
+engine = None
 class DBError(Exception):
     pass
 
@@ -302,4 +343,8 @@ class MultiColumnsError(DBError):
     pass
 
 
-
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+    create_engine('root', '888888', 'fuwo', '192.168.1.132')
+    import doctest
+    doctest.testmod()
