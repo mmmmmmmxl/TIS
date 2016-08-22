@@ -2,6 +2,9 @@
 import os
 import MySQLdb
 
+db = MySQLdb.connect(host='192.168.3.157', user='root', passwd='123456', db='blog')
+
+
 #用户状态
 class state:
 
@@ -14,3 +17,11 @@ class level:
     common = 0      #普通用户
     admin = 1       #普通管理员
     system = 2      #系统管理员
+
+
+class loginError(Exception):
+    """
+    登录错误异常
+    """
+    def __init__(self,value):
+        self.value = value

@@ -2,11 +2,9 @@
 
 from blog import blog
 from flask import render_template
-import MySQLdb
 import config
 import datetime
-
-db = MySQLdb.connect(host='192.168.3.157', user='root', passwd='123456', db='blog')
+from config import db,loginError
 
 @blog.route('/test')
 def index():
@@ -33,15 +31,18 @@ def register(request):
 
     cursor = db.cursor()
     #首先验证用户名或者邮箱是否重复
-    sql = "select username from account where username = %s"
+    sql = "select username,email from account where username = %s and email = %s"
     cursor.excute(sql)
+    syn = cursor.fetchall()
+    if syn:
+        raise loginError(u'用户名或者邮箱已存在')
 
     sql = "insert into account VALUES ('%s','%s','%s','%s','%s','%s','%s')" \
             % (username,userpass,email,config.state.active,datetime.datetime.now(),datetime.datetime.now(),config.level.common)
     try:
         cursor.excute(sql)
     except:
-        return render_template('')
+        return ('/account/404.html')
 
 
 
