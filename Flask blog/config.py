@@ -2,7 +2,7 @@
 import os
 import MySQLdb
 
-db = MySQLdb.connect(host='192.168.3.157', user='root', passwd='123456', db='blog')
+db = MySQLdb.connect(host='localhost', user='root', passwd='123456', db='blog')
 
 
 #用户状态
