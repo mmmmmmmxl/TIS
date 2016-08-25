@@ -1,3 +1,4 @@
+#coding:utf-8
 from blog import blog
 from flask import render_template
 from config import db
