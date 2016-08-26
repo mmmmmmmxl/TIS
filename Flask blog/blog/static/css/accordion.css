@@ -16,10 +16,10 @@
 	}
 	#slider {
 		position: absolute;
-		width: 820px;
-		height: 333px;
-		left: -430px;
-		top: -186px;
+		width: 1020px;
+		height: 400px;
+		left: -510px;
+		top: -200px;
 		overflow: hidden;
 		background: #000;
 		border: 20px solid #000;
@@ -27,8 +27,8 @@
 	#slider .slide {
 		position: absolute;
 		top: 0px;
-		height: 333px;
-		width: 500px;
+		height: 400px;
+		width: 520px;
 		background: #000;
 		overflow: hidden;
 		border-left: #000 solid 1px;
