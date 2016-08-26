@@ -6,4 +6,3 @@ blog.config.from_object('config')#从config读取配置文件
 
 #这个import语句放在这里, 防止views, models import发生循环import
 from blog.views import account,homepage
-from blog import models

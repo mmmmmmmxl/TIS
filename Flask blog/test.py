@@ -1,8 +1,5 @@
 #coding:utf-8
-from config import db
+import random
 
-cursor = db.cursor()
-sql = 'select username from account limit 10'
-cursor.execute(sql)
-a = cursor.fetchall()
+a = tuple([random.randint(1,1000) for i in range(10)])
 print a
