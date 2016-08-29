@@ -28,4 +28,4 @@ def index():
 def page_text(id): pass
 
 with blog.test_request_context():
-    url_for(page_text,id=)
+    url_for(page_text,id=id)
