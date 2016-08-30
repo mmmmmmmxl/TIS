@@ -1,5 +1,17 @@
 #page_title{
-    font-size: 200%;
-    left: 50%;
-    top: 10%;
+    font-size: 3.75em;
+    font-weight: 900;
+}
+#page_container{
+    position:absolute;
+    left: 15%;
+    top: 15%;
+    height: 1500px;
+    width: 1000px;
+}
+#page_author{
+    font-size: 2.00em;
+    font-weight: 500;
+    top: 20%;
+    left: 15%;
 }
