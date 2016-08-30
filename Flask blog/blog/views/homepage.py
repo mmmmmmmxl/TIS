@@ -19,13 +19,26 @@ def index():
         data = cursor.fetchall()
         title = [i[0] for i in data]
         annotation = [i[1] for i in data]
-        return render_template('/index.html', title=title, annotation=annotation)
+        urls = ["/page/%s/" % list[index] for index in range(0,len(list))]
+        page_range = range(0,10)
+        return render_template('/index.html', title=title, annotation=annotation, urls=urls, page_range=page_range)
     except:
         return render_template('/account/404.html')
 
 
 @blog.route('/page/<id>')
-def page_text(id): pass
+def page_text(id):
+    """
+    从数据库中拿取文章数据返回给模版页面
+    :param id:
+    :return:
+    """
+    cursor = db.cursor()
+    sql = 'SELECT title,content,annotation,author,create_time FROM page WHERE id = %s' % id
+    try:
+        cursor.execute(sql)
+        data = cursor.fetchall()
+    except:
+        pass
 
-with blog.test_request_context():
-    url_for(page_text,id=id)
+
