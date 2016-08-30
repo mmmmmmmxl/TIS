@@ -12,21 +12,22 @@ def index():
     """
     list = tuple([random.randint(1,1000) for i in range(10)])
     cursor = db.cursor()
-    sql = 'SELECT title,annotation FROM page WHERE id=%s or id=%s or id=%s or id=%s \
+    sql = 'SELECT title,annotation,id FROM page WHERE id=%s or id=%s or id=%s or id=%s \
     or id=%s or id=%s or id=%s or id=%s or id=%s or id=%s' % list
     try:
         cursor.execute(sql)
         data = cursor.fetchall()
         title = [i[0] for i in data]
         annotation = [i[1] for i in data]
-        urls = ["/page/%s/" % list[index] for index in range(0,len(list))]
+        id_list = [i[2] for i in data]
+        urls = ["/page/%s/" % id_list[index] for index in range(0,len(id_list))]
         page_range = range(0,10)
         return render_template('/index.html', title=title, annotation=annotation, urls=urls, page_range=page_range)
     except:
         return render_template('/account/404.html')
 
 
-@blog.route('/page/<id>')
+@blog.route('/page/<id>/')
 def page_text(id):
     """
     从数据库中拿取文章数据返回给模版页面
@@ -34,11 +35,13 @@ def page_text(id):
     :return:
     """
     cursor = db.cursor()
-    sql = 'SELECT title,content,annotation,author,create_time FROM page WHERE id = %s' % id
+    sql = 'SELECT title,content,annotation,author,create_time FROM page WHERE id=%s' % id
     try:
         cursor.execute(sql)
         data = cursor.fetchall()
+        title,content,annotation,author,create_time = tuple([data[0][index] for index in range(0,5)])
+        return render_template('/page/page.html', title=title, content=content, annotation=annotation, author=author, create_time=create_time)
     except:
-        pass
+        return render_template('/404.html')
 
 
