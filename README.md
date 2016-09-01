@@ -236,3 +236,12 @@ y = ''.join(x)
 ```
 
 =====================================
+#PIP批量更新
+PIP是不支持自动批量更新的，但是总得想办法嘛
+```python
+import pip
+from subprocess import call
+ 
+for dist in pip.get_installed_distributions():
+    call("pip install --upgrade " + dist.project_name, shell=True)
+```

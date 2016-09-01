@@ -40,6 +40,7 @@ def page_text(id):
         cursor.execute(sql)
         data = cursor.fetchall()
         title,content,annotation,author,create_time = tuple([data[0][index] for index in range(0,5)])
+        content = content.replace('<div class="articulo-contenido">','').replace('<br><br>','<br>').split('<br>')
         return render_template('/page/page.html', title=title, content=content, annotation=annotation, author=author, create_time=create_time)
     except:
         return render_template('/404.html')
