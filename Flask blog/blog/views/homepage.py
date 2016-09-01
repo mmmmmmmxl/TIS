@@ -1,7 +1,7 @@
 #coding:utf-8
 from blog import blog
 from flask import render_template,url_for
-from config import db
+from config import SQLdb as SQL
 import random
 
 @blog.route('/')
@@ -11,12 +11,10 @@ def index():
     :return:
     """
     list = tuple([random.randint(1,1000) for i in range(10)])
-    cursor = db.cursor()
     sql = 'SELECT title,annotation,id FROM page WHERE id=%s or id=%s or id=%s or id=%s \
     or id=%s or id=%s or id=%s or id=%s or id=%s or id=%s' % list
     try:
-        cursor.execute(sql)
-        data = cursor.fetchall()
+        SQL(sql,'select')
         title = [i[0] for i in data]
         annotation = [i[1] for i in data]
         id_list = [i[2] for i in data]
@@ -37,10 +35,9 @@ def page_text(id):
     cursor = db.cursor()
     sql = 'SELECT title,content,annotation,author,create_time FROM page WHERE id=%s' % id
     try:
-        cursor.execute(sql)
-        data = cursor.fetchall()
+        SQL(sql,'select')
         title,content,annotation,author,create_time = tuple([data[0][index] for index in range(0,5)])
-        content = content.replace('<div class="articulo-contenido">','').replace('<br><br>','<br>').split('<br>')
+        content = content.replace('<div class="articulo-contenido">','').replace('<br><br>','<br>').replace('</div>','').split('<br>')
         return render_template('/page/page.html', title=title, content=content, annotation=annotation, author=author, create_time=create_time)
     except:
         return render_template('/404.html')

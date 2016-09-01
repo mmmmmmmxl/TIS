@@ -4,7 +4,7 @@ from blog import blog
 from flask import render_template
 import config
 import datetime
-from config import db,loginError
+from config import loginError
 
 
 

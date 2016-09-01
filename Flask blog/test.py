@@ -2,7 +2,6 @@
 
 #
 
-from config import db
 # cursor = db.cursor()
 # sql = 'select content from page where id = 1034'
 # cursor.execute(sql)
@@ -17,8 +16,9 @@ from config import db
 # #
 # #
 # # print reduce(handle_reults,results)
-import pip
-from subprocess import call
 
-for dist in pip.get_installed_distributions():
-    call("pip install --upgrade " + dist.project_name, shell=True)
+a = 'sd'
+b = 'sdf'
+if a in b:
+    print a
+
