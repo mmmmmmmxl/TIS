@@ -22,13 +22,12 @@
 		top: -200px;
 		overflow: hidden;
 		background: #000;
-		border: 20px solid #000;
+		border: 15px solid #000;
 	}
 	#slider .slide {
 		position: absolute;
-		top: 0px;
 		height: 600px;
-		width: 800px;
+		width: 850px;
 		background: #000;
 		overflow: hidden;
 		border-left: #000 solid 1px;
@@ -37,7 +36,7 @@
 	#slider .title   {
 		color: #F80;
 		font-weight: bold;
-		font-size: 1.2em;
+		font-size: 1.9em;
 		margin-right: 1.5em;
 		text-decoration: none;
 	}

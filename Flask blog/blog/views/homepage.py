@@ -20,8 +20,8 @@ def index():
         id_list = [i[2] for i in data]
         urls = ["/page/%s/" % id_list[index] for index in range(0,len(id_list))]
         page_range = range(0,10)
-        img_list = []
-        return render_template('/index.html', title=title, annotation=annotation, urls=urls, page_range=page_range, html_tytle='Homepage')
+        img_list = [random.randint(1,43) for i in range(10)]
+        return render_template('/index.html', title=title, annotation=annotation, urls=urls, page_range=page_range, img_list=img_list, html_tytle='Homepage')
     except:
         return render_template('/404.html')
 
@@ -38,7 +38,7 @@ def page_text(id):
         data = SQL(sql,'select')
         title,content,annotation,author,create_time = tuple([data[0][index] for index in range(0,5)])
         #处理文本片段，使其在web页面显示的时候格式不出问题
-        content = content.replace('<div class="articulo-contenido">','').replace('<br><br>','<br>').replace('</div>','').replace('<b>','').replace('</b>','').split('<br>')
+        content = content.replace('<div class="articulo-contenido">','').replace('<br><br>','<br>').replace('</div>','').replace('<b>','').replace('</b>','').replace('&lt;/div&gt;','').split('<br>')
         return render_template('/page/page.html', title=title, content=content, annotation=annotation, author=author, create_time=create_time)
     except:
         return render_template('/404.html')

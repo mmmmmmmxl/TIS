@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="/static/css/demo.css" />
 <!--必要样式-->
 <link rel="stylesheet" type="text/css" href="/static/fonts/font-awesome-4.2.0/css/font-awesome.min.css" />
-<link rel="stylesheet" type="text/css" href="/static/css/menu_topside.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/menu_topexpand.css" />
 <!--[if IE]>
 <!--<script src="/static/js/html5.js"></script>-->
 <!--<![endif]&ndash;&gt;-->
@@ -24,32 +24,25 @@
 <div class="container">
 
 	<div class="menu-wrap">
-		<nav class="menu-top">
-			<div class="profile"><img src="/static/img/1.png" alt=""/><span>NaVient</span><p>祸福无门</p><p>惟人自召</p></div>
+		<nav class="menu">
 			<div class="icon-list">
-				<a href="#"><i class="fa fa-fw fa-star-o"></i></a>
-				<a href="#"><i class="fa fa-fw fa-bell-o"></i></a>
-				<a href="#"><i class="fa fa-fw fa-envelope-o"></i></a>
-				<a href="#"><i class="fa fa-fw fa-comment-o"></i></a>
+				<a href="#"><i class="fa fa-fw fa-star-o"></i><span>Favorites</span></a>
+				<a href="#"><i class="fa fa-fw fa-bell-o"></i><span>Alerts</span></a>
+				<a href="#"><i class="fa fa-fw fa-envelope-o"></i><span>Messages</span></a>
+				<a href="#"><i class="fa fa-fw fa-comment-o"></i><span>Comments</span></a>
+				<a href="#"><i class="fa fa-fw fa-bar-chart-o"></i><span>Analytics</span></a>
+				<a href="#"><i class="fa fa-fw fa-newspaper-o"></i><span>Reading List</span></a>
 			</div>
-		</nav>
-		<nav class="menu-side">
-			<a href="#">我最近在做什么</a>
-			<a href="#">阅读列表</a>
-			<a href="#">我的故事</a>
-			<a href="#">目录</a>
 		</nav>
 	</div>
 
-	<button class="menu-button" id="open-button">Open Menu</button>
+	<button class="menu-button" id="open-button"></button>
 
 	<div class="content-wrap">
 		<div class="content">
-			{% block body %}{% endblock %}
-			<div style="height:850px;"></div>
+            <div id="page_text">{% block body %}{% endblock %}</div>
 		</div>
 	</div><!-- /content-wrap -->
-
 
 </div><!-- /container -->
 
