@@ -1,6 +1,6 @@
 #coding:utf-8
 from blog import blog
-from flask import render_template,url_for
+from flask import render_template
 from config import SQLdb as SQL
 import random
 
@@ -14,7 +14,7 @@ def index():
     sql = 'SELECT title,annotation,id FROM page WHERE id=%s or id=%s or id=%s or id=%s \
     or id=%s or id=%s or id=%s or id=%s or id=%s or id=%s' % list
     try:
-        SQL(sql,'select')
+        data = SQL(sql,'select')
         title = [i[0] for i in data]
         annotation = [i[1] for i in data]
         id_list = [i[2] for i in data]
@@ -22,7 +22,7 @@ def index():
         page_range = range(0,10)
         return render_template('/index.html', title=title, annotation=annotation, urls=urls, page_range=page_range, html_tytle='Homepage')
     except:
-        return render_template('/account/404.html')
+        return render_template('/404.html')
 
 
 @blog.route('/page/<id>/')
@@ -32,12 +32,12 @@ def page_text(id):
     :param id:
     :return:
     """
-    cursor = db.cursor()
     sql = 'SELECT title,content,annotation,author,create_time FROM page WHERE id=%s' % id
     try:
-        SQL(sql,'select')
+        data = SQL(sql,'select')
         title,content,annotation,author,create_time = tuple([data[0][index] for index in range(0,5)])
-        content = content.replace('<div class="articulo-contenido">','').replace('<br><br>','<br>').replace('</div>','').split('<br>')
+        #处理文本片段，使其在web页面显示的时候格式不出问题
+        content = content.replace('<div class="articulo-contenido">','').replace('<br><br>','<br>').replace('</div>','').replace('<b>','').replace('</b>','').split('<br>')
         return render_template('/page/page.html', title=title, content=content, annotation=annotation, author=author, create_time=create_time)
     except:
         return render_template('/404.html')

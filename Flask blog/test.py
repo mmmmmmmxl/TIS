@@ -17,8 +17,7 @@
 # #
 # # print reduce(handle_reults,results)
 
-a = 'sd'
-b = 'sdf'
-if a in b:
-    print a
-
+from config import SQLdb
+sql = 'select * from page where id = 1'
+SQLdb(sql,'select')
+print data
