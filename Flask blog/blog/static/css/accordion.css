@@ -16,9 +16,9 @@
 	}
 	#slider {
 		position: absolute;
-		width: 1020px;
-		height: 400px;
-		left: -510px;
+		width: 1440px;
+		height: 600px;
+		right: -730px;
 		top: -200px;
 		overflow: hidden;
 		background: #000;
@@ -27,8 +27,8 @@
 	#slider .slide {
 		position: absolute;
 		top: 0px;
-		height: 400px;
-		width: 520px;
+		height: 600px;
+		width: 800px;
 		background: #000;
 		overflow: hidden;
 		border-left: #000 solid 1px;
@@ -52,7 +52,6 @@
 	}
 	#slider .text {
 		position: absolute;
-		top: 1%;
 		top: 100%;
 		color: #FFF;
 		font-family: verdana, arial, Helvetica, sans-serif;

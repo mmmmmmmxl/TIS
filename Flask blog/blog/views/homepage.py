@@ -20,6 +20,7 @@ def index():
         id_list = [i[2] for i in data]
         urls = ["/page/%s/" % id_list[index] for index in range(0,len(id_list))]
         page_range = range(0,10)
+        img_list = []
         return render_template('/index.html', title=title, annotation=annotation, urls=urls, page_range=page_range, html_tytle='Homepage')
     except:
         return render_template('/404.html')
