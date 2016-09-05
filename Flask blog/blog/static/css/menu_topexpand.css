@@ -8,7 +8,7 @@ body,
 }
 
 .container {
-	background: #104E8B;
+	background: #191970;
 }
 
 .menu-wrap a {
@@ -31,7 +31,7 @@ body,
 
 .content {
 	position: relative;
-	background: #b4bad2;
+	background: #191970;
 	padding-bottom: 12em;
 }
 
