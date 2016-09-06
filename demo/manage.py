@@ -5,7 +5,7 @@ from blog import blog
 
 manager = Manager(blog)
 manager.add_command('runserver',
-                    Server(host='127.0.0.1', port=8000, use_debugger=True))
+                    Server(host='0.0.0.0', port=8001, use_debugger=True))
 
 
 if __name__ == '__main__':
