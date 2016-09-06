@@ -1,0 +1,30 @@
+#page_title{
+    font-size: 3.75em;
+    font-weight: 900;
+    color: coral;
+    font-family: "STKaiti";
+}
+#page_container{
+    position:absolute;
+    left: 20%;
+    top: 30%;
+    height: auto;
+    width: 1000px;
+}
+#page_author{
+    font-size: 1.20em;
+    font-weight: 400;
+    color: #000000;
+    font-family: "Microsoft YaHei";
+}
+#page_content{
+    top: 30%;
+    left: 15%;
+    color: #080808;
+    font-family: "Microsoft YaHei";
+    font-size: 0.95em;
+}
+
+#page_text{
+    top: 30%;
+}
