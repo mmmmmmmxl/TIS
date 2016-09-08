@@ -42,7 +42,7 @@ def SQLdb(sql,*args):
     :param args:
     :return:
     """
-    conn = MySQLdb.connect(host='localhost', user='root', passwd='123456', db='blog', charset='utf8')
+    conn = MySQLdb.connect(host='192.168.3.157', user='root', passwd='123456', db='blog', charset='utf8')
     cursor = conn.cursor()
     try:
         cursor.execute(sql)
