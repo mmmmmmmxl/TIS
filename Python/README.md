@@ -28,4 +28,13 @@ for i,e in enumerate(list):
 
 #eumerate为惰性加载
 
+=================================
+#在添加字符串的时候尽量用join
+```python
+str1 + str2 + str3
+
+''.join([str1,str2,str3])
+
+#在字符串数量达到100000级别的时候join比+快100倍左右，且这个数值会越来越大。
+
 	 
