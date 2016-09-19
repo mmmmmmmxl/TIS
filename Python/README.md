@@ -48,3 +48,16 @@ str1 + str2 + str3
 >>>++++++++++test
 >>>+++++test+++++
 ```
+
+====================================
+#×Ö·û´®µÄ´óĞ¡Ğ´×ª»»
+```python
+'test test test'.title()
+>>>'Test Test Test'
+'test test test'.capitalize()
+>>>'Test test test'
+'test'.upper()
+>>>'TEST'
+'TEST'.lower()
+>>>'test'
+```
