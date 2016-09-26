@@ -83,3 +83,26 @@ itertools.izip(a,b)
 
 #通常情况下，使用itertools.izip效率会比zip快两倍左右。并且izip是逐个组合，不会产生内存溢出的现象。
 ```
+=====================================
+#合理运用for...else...
+通常情况下，编码时常会运用开关变量来做条件判断
+现在有一个需求，需要在数组中找到是否有某一数值，例子如下
+
+```python
+array_list = [1,2,3,4,5,6]
+open_key = False
+for array in array_list:
+   if array == 1:
+	open_key = True
+if not open_key:
+   print 'ERROR'
+
+#实际上可以有效的利用for..else来实现，从而简化代码
+for array in array_list:
+   if array == 1:
+	break
+else:
+   print 'ERROR'
+```
+   
+    
