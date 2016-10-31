@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from flask import Flask
-
+from flask.ext.sqlalchemy import SQLAlchemy
 blog = Flask(__name__)#创建Flask实例
 blog.config.from_object('config')#从config读取配置文件
 

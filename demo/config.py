@@ -35,41 +35,6 @@ class SQLError(Exception):
         self.error = error
 
 
-def SQLdb(sql,*args):
-    """
-    封装MySQLdb
-    :param sql:
-    :param args:
-    :return:
-    """
-    conn = MySQLdb.connect(host='192.168.3.157', user='root', passwd='123456', db='blog', charset='utf8')
-    cursor = conn.cursor()
-    try:
-        cursor.execute(sql)
-        #插入时
-        if 'insert' in args:
-            cursor.commit()
-            cursor.close()
-            conn.close()
-            return
-        #修改时
-        if 'update' in args:
-            cursor.commit()
-            cursor.close()
-            conn.close()
-            return
-        #查询时
-        if 'select' in args:
-            data = cursor.fetchall()
-            cursor.close()
-            conn.close()
-            return data
-        #不允许删除
-        else:
-            raise SQLError('无法识别的数据库操作')
-    except:
-        raise SQLError('SQL语句不正确')
-
 
 
 
